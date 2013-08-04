@@ -3,19 +3,19 @@
  * Extends LeftAndMain::init() to include all the HTMLEditorField configs in the initial page load
  */
 class CustomHTMLEditorLeftAndMainExtension extends Extension {
-	
+
 
 	function init() {
 		Requirements::javascript(basename(dirname(__DIR__)) . '/javascript/CustomHTMLEditorField.js');
 		CustomHTMLEditorLeftAndMainExtension::include_js();
 	}
-	
+
 
 	/**
-	 * This basically merges HtmlEditorField::include_js() and HTMLEditorConfig::generateJS() to output all 
+	 * This basically merges HtmlEditorField::include_js() and HTMLEditorConfig::generateJS() to output all
 	 * configuration sets to a customTinyMceConfigs javascript array.
-	 * This is output in addition to the standard ssTinyMceConfig because a) we can't stop the default output 
-	 * with extensions; and b) the default setting is still used for any HTMLEditorField that doesn't specify 
+	 * This is output in addition to the standard ssTinyMceConfig because a) we can't stop the default output
+	 * with extensions; and b) the default setting is still used for any HTMLEditorField that doesn't specify
 	 * it's own config.
 	 *
 	 * Calls Requirements::javascript() to load the scripts.
@@ -40,16 +40,16 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 			$configObj = CustomHtmlEditorConfig::get($identifier);
 
 			$configObj->getConfig()->setOption('language', i18n::get_tinymce_lang());
-			if(!$configObj->getConfig()->getOption('content_css')) {
+			if (!$configObj->getConfig()->getOption('content_css')) {
 				$configObj->getConfig()->setOption('content_css', $activeConfig->getOption('content_css'));
 			}
 
 
 			$settings = $configObj->getSettings();
-			
 
-			foreach($configObj->getPlugins() as $plugin => $path) {
-				if(!$path) {
+
+			foreach ($configObj->getPlugins() as $plugin => $path) {
+				if (!$path) {
 					$pluginsForTag[$plugin] = $plugin;
 					$internalPluginsForJS[$plugin] = $plugin;
 				} else {
@@ -69,7 +69,7 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 
 
 			$settings['plugins'] = implode(',', $internalPluginsForJS);
-			
+
 			$buttons = $configObj->getButtons();
 			foreach ($buttons as $i=>$buttons) {
 				$settings['theme_advanced_buttons'.$i] = implode(',', $buttons);
@@ -80,13 +80,13 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 
 
 
-		if(HtmlEditorField::$use_gzip) {
+		if (HtmlEditorField::$use_gzip) {
 			$tag = TinyMCE_Compressor::renderTag(array(
-				'url' => THIRDPARTY_DIR . '/tinymce/tiny_mce_gzip.php',
-				'plugins' => implode(',', $pluginsForTag),
-				'themes' => 'advanced',
-				'languages' => implode(',', $languages)
-			), true);
+					'url' => THIRDPARTY_DIR . '/tinymce/tiny_mce_gzip.php',
+					'plugins' => implode(',', $pluginsForTag),
+					'themes' => 'advanced',
+					'languages' => implode(',', $languages)
+				), true);
 			preg_match('/src="([^"]*)"/', $tag, $matches);
 			Requirements::javascript($matches[1]);
 		} else {
@@ -98,7 +98,7 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 		$script = <<<JS
 			if((typeof tinyMCE != 'undefined')) {
 				{$externalPluginsJS}
-				
+
 				if (typeof customTinyMceConfigs == 'undefined') {
 					var customTinyMceConfigs = [];
 				}
@@ -107,11 +107,11 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 
 JS;
 
-			Requirements::customScript($script, 'htmlEditorConfigs');
+		Requirements::customScript($script, 'htmlEditorConfigs');
 	}
 
 
 
 
-	
+
 }
