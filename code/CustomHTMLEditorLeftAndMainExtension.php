@@ -46,7 +46,6 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 
 
 			$settings = $configObj->getSettings();
-			
 
 
 			foreach ($configObj->getPlugins() as $plugin => $path) {
