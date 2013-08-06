@@ -32,12 +32,12 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 		//$allConfigs = array();
 		$settingsJS = '';
 		$externalPluginsForJS = array();
-		$internalPluginsForJS = array();
 
 		$activeConfig = HtmlEditorConfig::get_active();
 
 		foreach ($availableConfigs as $identifier => $friendlyName) {
 			$configObj = CustomHtmlEditorConfig::get($identifier);
+			$internalPluginsForJS = array();
 
 			$configObj->getConfig()->setOption('language', i18n::get_tinymce_lang());
 			if (!$configObj->getConfig()->getOption('content_css')) {
@@ -46,6 +46,7 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 
 
 			$settings = $configObj->getSettings();
+			
 
 
 			foreach ($configObj->getPlugins() as $plugin => $path) {
