@@ -12,10 +12,10 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 
 
 	/**
-	 * This basically merges HtmlEditorField::include_js() and HTMLEditorConfig::generateJS() to output all
+	 * This basically merges HtmlEditorField::include_js() and HTMLEditorConfig::generateJS() to output all 
 	 * configuration sets to a customTinyMceConfigs javascript array.
-	 * This is output in addition to the standard ssTinyMceConfig because a) we can't stop the default output
-	 * with extensions; and b) the default setting is still used for any HTMLEditorField that doesn't specify
+	 * This is output in addition to the standard ssTinyMceConfig because a) we can't stop the default output 
+	 * with extensions; and b) the default setting is still used for any HTMLEditorField that doesn't specify 
 	 * it's own config.
 	 *
 	 * Calls Requirements::javascript() to load the scripts.
@@ -40,7 +40,7 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 			$internalPluginsForJS = array();
 
 			$configObj->getConfig()->setOption('language', i18n::get_tinymce_lang());
-			if (!$configObj->getConfig()->getOption('content_css')) {
+			if(!$configObj->getConfig()->getOption('content_css')) {
 				$configObj->getConfig()->setOption('content_css', $activeConfig->getOption('content_css'));
 			}
 
@@ -48,9 +48,8 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 			$settings = $configObj->getSettings();
 
 
-
-			foreach ($configObj->getPlugins() as $plugin => $path) {
-				if (!$path) {
+			foreach($configObj->getPlugins() as $plugin => $path) {
+				if(!$path) {
 					$pluginsForTag[$plugin] = $plugin;
 					$internalPluginsForJS[$plugin] = $plugin;
 				} else {
@@ -81,7 +80,7 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 
 
 
-		if (HtmlEditorField::$use_gzip) {
+		if(Config::inst()->get('HtmlEditorField', 'use_gzip')) {
 			$tag = TinyMCE_Compressor::renderTag(array(
 					'url' => THIRDPARTY_DIR . '/tinymce/tiny_mce_gzip.php',
 					'plugins' => implode(',', $pluginsForTag),

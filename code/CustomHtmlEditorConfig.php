@@ -47,9 +47,17 @@ class CustomHTMLEditorConfig extends HTMLEditorConfig {
 		if (is_string($old)) {
 			$old = HTMLEditorConfig::get($old);
 		}
-
-		HTMLEditorConfig::$configs[$newIdentifier] = clone $old;
+		
 		$newConfig = HTMLEditorConfig::get($newIdentifier);
+		
+		foreach ($old->settings as $key => $value) {
+			$newConfig->setOption($key, $value);
+		}
+		
+		$newConfig->plugins = $old->getPlugins();
+
+		$newConfig->buttons = $old->buttons;
+
 		if ($name) {
 			$newConfig->setOption('friendly_name', $name);
 		} else {
@@ -98,6 +106,5 @@ class CustomHTMLEditorConfig extends HTMLEditorConfig {
 	function getPlugins() {
 		return $this->getConfig()->plugins;
 	}
-
 
 }
