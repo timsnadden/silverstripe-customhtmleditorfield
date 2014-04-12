@@ -82,11 +82,11 @@ class CustomHTMLEditorLeftAndMainExtension extends Extension {
 
 		if(Config::inst()->get('HtmlEditorField', 'use_gzip')) {
 			$tag = TinyMCE_Compressor::renderTag(array(
-					'url' => THIRDPARTY_DIR . '/tinymce/tiny_mce_gzip.php',
-					'plugins' => implode(',', $pluginsForTag),
-					'themes' => 'advanced',
-					'languages' => implode(',', $languages)
-				), true);
+				'url' => THIRDPARTY_DIR . '/tinymce/tiny_mce_gzip.php',
+				'plugins' => implode(',', $pluginsForTag),
+				'themes' => 'advanced',
+				'languages' => implode(',', $languages)
+			), true);
 			preg_match('/src="([^"]*)"/', $tag, $matches);
 			Requirements::javascript($matches[1]);
 		} else {
